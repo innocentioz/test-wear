@@ -14,7 +14,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SessionProvider>
           <CartProvider>
             <Header />
-            <main className='h-screen flex justify-evenly lg:h-screen '>{children}</main>
+            <main className='flex justify-evenly'>{children}</main>
             <Footer /> 
           </CartProvider>
         </SessionProvider>

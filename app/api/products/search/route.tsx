@@ -4,11 +4,11 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export async function GET(req: NextRequest) {
-  const { searchTerm, page = '1', limit = '6' } = Object.fromEntries(new URL(req.url).searchParams);
+  const { searchTerm, page = '1', limit = '9' } = Object.fromEntries(new URL(req.url).searchParams);
 
   // Преобразуем `page` и `limit` в числа
-  const pageNumber = parseInt(page, 6) || 1;
-  const limitNumber = parseInt(limit, 6) || 6;
+  const pageNumber = parseInt(page, 8) || 1;
+  const limitNumber = parseInt(limit, 8) || 8;
 
   // Вычисляем сдвиг (offset)
   const skip = (pageNumber - 1) * limitNumber;

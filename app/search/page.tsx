@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface Product {
   id: string;
@@ -49,7 +51,7 @@ export default function SearchPage() {
   };
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container p-4">
       <h1 className="text-2xl font-bold mb-4">Search for Products</h1>
 
       <input
@@ -65,52 +67,59 @@ export default function SearchPage() {
 
       {loading && <p>Loading...</p>}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 montserrat text-sm font-medium">
         {products.map((product) => (
-          <div key={product.id} className="border p-4 rounded shadow">
+          <Link href={`/product/${product.id}`} key={product.id} className="p-4 w-4/6 flex flex-col gap-2 hover:-translate-y-2 hover:transform duration-300">
             <Image
               src={product.imageUrl}
               alt={product.name}
-              className="w-full h-48 object-cover rounded mb-4"
+              className="object-cover"
               width={1920}
               height={1080}
             />
-            <h3 className="text-lg font-bold">{product.name}</h3>
-            <p className="text-sm text-gray-600">Category: {product.category}</p>
-            <p className="text-xl font-semibold">Price: ${product.price / 100}</p>
-          </div>
+            <h2>{product.name}</h2>
+            <p>{product.price} ₽</p>
+            <span>Доступен для заказа</span>
+          </Link>
         ))}
       </div>
 
-      <div className="flex justify-center items-center mt-4 space-x-2">
+
+      <div className="flex justify-center items-center mt-10 mb-10 space-x-2 gap-20">
+        {/* Кнопка "Previous" */}
         <button
-          className="bg-gray-200 px-4 py-2 rounded disabled:bg-gray-100"
+          className={`cursor-pointer ${page <= 1 ? 'opacity-30 cursor-not-allowed' : ''}`}
           onClick={() => handlePageChange(page - 1)}
           disabled={page <= 1}
         >
-          Previous
+        <ChevronLeft width={40} height={40}/>
         </button>
 
-        {getPageNumbers().map((pageNumber) => (
-          <button
-            key={pageNumber}
-            className={`px-4 py-2 rounded ${
-              pageNumber === page
-                ? 'bg-blue-500 text-white'
-                : 'bg-gray-200 text-black'
-            }`}
-            onClick={() => handlePageChange(pageNumber)}
-          >
-            {pageNumber}
-          </button>
-        ))}
+        {/* Номера страниц */}
+        
+        <div className='flex gap-10 text-2xl'>
+          {getPageNumbers().map((pageNumber) => (
+            <button
+              key={pageNumber}
+              className={`${
+                pageNumber === page
+                  ? 'text-neutral-800'
+                  : 'text-neutral-400'
+              }`}
+              onClick={() => handlePageChange(pageNumber)}
+            >
+              {pageNumber}
+            </button>
+          ))}
+        </div>
 
+        {/* Кнопка "Next" */}
         <button
-          className="bg-gray-200 px-4 py-2 rounded disabled:bg-gray-100"
+          className={`cursor-pointer ${page >= totalPages ? 'opacity-30 cursor-not-allowed' : ''}`}
           onClick={() => handlePageChange(page + 1)}
           disabled={page >= totalPages}
         >
-          Next
+        <ChevronRight width={40} height={40}/>
         </button>
       </div>
     </div>

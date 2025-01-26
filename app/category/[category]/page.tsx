@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
+import Link from 'next/link';
+import { ChevronRight, ChevronLeft } from 'lucide-react';
 
 type Product = {
   id: number;
@@ -64,8 +66,12 @@ const CategoryPage = () => {
   };
 
   return (
-    <div className="container">
+    <div className="container pb-10">
       <h1 className="text-2xl font-bold mb-4">{category?.toUpperCase()}</h1>
+
+      <div>
+        <Link href={`/`}>Главная /</Link><Link href={`/category/${category}`}> {category?.toUpperCase()}</Link>
+      </div>
 
       {/* Поиск */}
       <input
@@ -84,70 +90,72 @@ const CategoryPage = () => {
         <select
           value={sortOption}
           onChange={(e) => setSortOption(e.target.value)}
-          className="border p-2"
+          className="bg-white text-black px-4 py-2"
         >
           <option value="nameAsc">Имя (по возрастанию)</option>
           <option value="nameDesc">Имя (по убыванию)</option>
           <option value="priceAsc">Цена (по возрастанию)</option>
           <option value="priceDesc">Цена (по убыванию)</option>
         </select>
+
       </div>
 
       {loading && <p>Loading...</p>}
 
       {/* Список продуктов */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 montserrat text-sm font-medium">
         {products.map((product) => (
-          <div key={product.id} className="p-4 border rounded">
+          <Link href={`/product/${product.id}`} key={product.id} className="p-4 w-4/6 flex flex-col gap-2 hover:-translate-y-2 hover:transform duration-300">
             <Image
               src={product.imageUrl}
               alt={product.name}
-              className="w-full h-64 object-cover"
+              className="object-cover"
               width={1920}
               height={1080}
             />
             <h2>{product.name}</h2>
             <p>{product.price} ₽</p>
-            <a href={`/product/${product.id}`} className="text-blue-500">
-              Подробнее
-            </a>
-          </div>
+            <span>Доступен для заказа</span>
+          </Link>
         ))}
       </div>
 
       {/* Навигация по страницам */}
-      <div className="flex justify-center items-center mt-4 space-x-2">
+      <div className="flex justify-center items-center mt-10 mb-10 space-x-2 gap-20">
         {/* Кнопка "Previous" */}
         <button
-          className="bg-gray-200 px-4 py-2 rounded disabled:bg-gray-100"
+          className={`cursor-pointer ${page <= 1 ? 'opacity-30 cursor-not-allowed' : ''}`}
           onClick={() => setPage(page - 1)}
           disabled={page <= 1}
         >
-          Previous
+        <ChevronLeft width={40} height={40}/>
         </button>
 
         {/* Номера страниц */}
-        {getPageNumbers().map((pageNumber) => (
-          <button
-            key={pageNumber}
-            className={`px-4 py-2 rounded ${
-              pageNumber === page
-                ? 'bg-blue-500 text-white'
-                : 'bg-gray-200 text-black'
-            }`}
-            onClick={() => setPage(pageNumber)}
-          >
-            {pageNumber}
-          </button>
-        ))}
+        
+        <div className='flex gap-10 text-2xl'>
+          {getPageNumbers().map((pageNumber) => (
+            <button
+              key={pageNumber}
+              className={`${
+                pageNumber === page
+                  ? 'text-neutral-800'
+                  : 'text-neutral-400'
+              }`}
+              onClick={() => setPage(pageNumber)}
+            >
+              {pageNumber}
+            </button>
+          ))}
+        </div>
 
         {/* Кнопка "Next" */}
         <button
-          className="bg-gray-200 px-4 py-2 rounded disabled:bg-gray-100"
+          className={`cursor-pointer ${page >= totalPages ? 'opacity-30 cursor-not-allowed' : ''}`}
           onClick={() => setPage(page + 1)}
           disabled={page >= totalPages}
         >
-          Next
+        <ChevronRight width={40} height={40}/>
         </button>
       </div>
     </div>

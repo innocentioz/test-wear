@@ -6,8 +6,8 @@ export async function GET(req: NextRequest) {
   const category = searchParams.get("category");
   const sort = searchParams.get("sort");
   const search = searchParams.get("search") || ""; // Строка поиска
-  const page = parseInt(searchParams.get("page") || '1', 6);
-  const limit = parseInt(searchParams.get("limit") || '6', 6);
+  const page = parseInt(searchParams.get("page") || '1', 8);
+  const limit = parseInt(searchParams.get("limit") || '8', 8);
 
   if (!category || typeof category !== "string") {
     return NextResponse.json({ error: "Invalid category" }, { status: 400 });

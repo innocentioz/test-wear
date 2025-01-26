@@ -66,7 +66,7 @@ const ProductDetails = ({ product }: { product: Product }) => {
 
   return (
     <div>
-      <div className="p-4 w-1/4">
+      <div className="p-4">
         <Image
           src={product.imageUrl}
           alt={product.name}

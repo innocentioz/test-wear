@@ -20,9 +20,9 @@ const Input: React.FC<InputProps> = ({
   className = '',
 }) => {
 
-  const baseStyles = 'border-b border-neutral-800 montserrat px-4 py-2 focus:outline-none transition duration-200';
+  const baseStyles = 'border-b border-neutral-800 montserrat px-4 py-2 transition duration-200 focus:outline-none';
   const sizeStyles = {
-    small: 'text-sm py-1 px-2',
+    small: 'text-base py-1 px-2',
     medium: 'text-base py-2 px-4',
     large: 'text-lg py-3 px-6',
   }[size];
