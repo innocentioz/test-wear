@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id          Int        @id @default(autoincrement())
+  name        String
+  price       Int
+  imageUrl    String
+  category    String
+  sizes       Size[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  carts       Cart[]
+  wishlists   Wishlist[]
+}
+
+model Size {
+  id        Int       @id @default(autoincrement())
+  name      String    // Размер (например, "S", "M", "L" для одежды)
+  productId Int
+  product   Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id        Int        @id @default(autoincrement())
+  username  String     @unique
+  fullName  String
+  password  String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  role      String     @default("user")
+  carts     Cart[]
+  wishlists Wishlist[]
+}
+
+model Cart {
+  id        Int     @id @default(autoincrement())
+  quantity  Int
+  productId Int
+  userId    Int
+  product   Product @relation(fields: [productId], references: [id])
+  user      User    @relation(fields: [userId], references: [id])
+}
+
+model Wishlist {
+  id        Int     @id @default(autoincrement())
+  productId Int
+  userId    Int
+  product   Product @relation(fields: [productId], references: [id])
+  user      User    @relation(fields: [userId], references: [id])
+}

@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: "Gaoel";
+    src: url("/fonts/gaoel.ttf") format("truetype");
+}
+  
+@font-face {
+    font-family: "MotivaSans";
+    src: url("/fonts/MotivaSans.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "Monsterrat";
+    src: url("/fonts/montserrat.ttf") format("truetype");
+}
+
+.gaoel {
+    font-family: "Gaoel";
+}
+
+.motivasans {
+    font-family: "MotivaSans";
+}
+
+.montserrat {
+    font-family: "Monsterrat";
+}
