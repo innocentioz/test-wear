@@ -66,46 +66,80 @@ const CategoryPage = () => {
   };
 
   return (
-    <div className="container pb-10">
-      <h1 className="text-2xl font-bold mb-4">{category?.toUpperCase()}</h1>
+    <div className="container mt-12 mb-16">
+      <h1 className="text-2xl font-bold mb-4">
+        {(() => {
+          switch (category) {
+            case "shoes":
+              return "Обувь";
+            case "clothing":
+              return "Одежда";
+            case "accessories":
+              return "Аксессуары";
+            case "collections":
+              return "Коллекции";
+            default:
+              return "Категория не найдена";
+          }
+        })()}
+      </h1>
 
-      <div>
-        <Link href={`/`}>Главная /</Link><Link href={`/category/${category}`}> {category?.toUpperCase()}</Link>
-      </div>
+      <div className='flex flex-col gap-3 items-start'>
+        <div className='flex items-center justify-between gap-2 w-full'> 
+            <div>
+              <Link href={`/`} className=' text-neutral-500 hover:text-neutral-900 transform duration-300 ease-in-out'>Главная / </Link><Link href={`/category/${category}`} className=' text-neutral-500 hover:text-neutral-900 transform duration-300 ease-in-out'>
+                {(() => {
+                  switch (category) {
+                    case "shoes":
+                      return "Обувь";
+                    case "clothing":
+                      return "Одежда";
+                    case "accessories":
+                      return "Аксессуары";
+                    case "collections":
+                      return "Коллекции";
+                    default:
+                      return "Категория не найдена";
+                  }
+                })()}
+              </Link>
+            </div>
 
-      {/* Поиск */}
-      <input
-        type="text"
-        placeholder="Type to search..."
-        className="border p-2 w-full mb-4"
-        value={searchTerm}
-        onChange={(e) => {
-          setSearchTerm(e.target.value);
-          setPage(1); // Сбрасываем на первую страницу при новом поиске
-        }}
-      />
+            <input
+              type="text"
+              placeholder="Введите название товара, например: nike sb dunk"
+              className="p-2 px-5 border rounded-full opacity-40 text-black border-neutral-800 focus:outline-none focus:opacity-80 placeholder:text-neutral-700 w-1/3"
+              value={searchTerm}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                setPage(1); // Сбрасываем на первую страницу при новом поиске
+              }}
+            />
+        </div>
 
-      {/* Сортировка */}
-      <div className="mb-4">
-        <select
-          value={sortOption}
-          onChange={(e) => setSortOption(e.target.value)}
-          className="bg-white text-black px-4 py-2"
-        >
-          <option value="nameAsc">Имя (по возрастанию)</option>
-          <option value="nameDesc">Имя (по убыванию)</option>
-          <option value="priceAsc">Цена (по возрастанию)</option>
-          <option value="priceDesc">Цена (по убыванию)</option>
-        </select>
 
+        {/* Сортировка */}
+        <div className="mb-4">
+          <select
+            value={sortOption}
+            onChange={(e) => setSortOption(e.target.value)}
+            className="bg-white text-black"
+          >
+            <option value="nameAsc">Имя (по возрастанию)</option>
+            <option value="nameDesc">Имя (по убыванию)</option>
+            <option value="priceAsc">Цена (по возрастанию)</option>
+            <option value="priceDesc">Цена (по убыванию)</option>
+          </select>
+
+        </div>
       </div>
 
       {loading && <p>Loading...</p>}
 
       {/* Список продуктов */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 montserrat text-sm font-medium">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 justify-items-center montserrat text-sm font-medium">
         {products.map((product) => (
-          <Link href={`/product/${product.id}`} key={product.id} className="p-4 w-4/6 flex flex-col gap-2 hover:-translate-y-2 hover:transform duration-300">
+          <Link href={`/product/${product.id}`} key={product.id} className="w-4/6 flex flex-col gap-2 hover:-translate-y-2 hover:transform duration-300">
             <Image
               src={product.imageUrl}
               alt={product.name}
