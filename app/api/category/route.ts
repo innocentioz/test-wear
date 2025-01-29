@@ -36,8 +36,8 @@ export async function GET(req: NextRequest) {
       where: {
         category: category,
         name: {
-          contains: search, // Фильтр по строке поиска
-          mode: "insensitive", // Игнорировать регистр
+          contains: search,
+          mode: "insensitive", 
         },
       },
       skip: (page - 1) * limit,
@@ -49,8 +49,8 @@ export async function GET(req: NextRequest) {
       where: {
         category: category,
         name: {
-          contains: search, // Фильтр по строке поиска
-          mode: "insensitive", // Игнорировать регистр
+          contains: search, 
+          mode: "insensitive", 
         },
       },
     });

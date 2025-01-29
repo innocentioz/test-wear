@@ -15,7 +15,7 @@ type Product = {
 };
 
 const CategoryPage = () => {
-  const params = useParams(); // Используем хук useParams для получения параметров
+  const params = useParams(); 
   const [products, setProducts] = useState<Product[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [sortOption, setSortOption] = useState<string>('nameAsc');
@@ -23,12 +23,10 @@ const CategoryPage = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  // Получаем категорию как строку
   const category = Array.isArray(params.category)
     ? params.category[0]
     : params.category;
 
-  // Запрос данных при изменении категории, сортировки, строки поиска или страницы
   useEffect(() => {
     if (!category) return;
 
@@ -52,11 +50,10 @@ const CategoryPage = () => {
     fetchProducts();
   }, [category, sortOption, searchTerm, page]);
 
-  // Генерация массива страниц для отображения (5 страниц вокруг текущей)
   const getPageNumbers = () => {
     const pageNumbers = [];
-    const start = Math.max(1, page - 2); // Начало диапазона (минимум 1)
-    const end = Math.min(totalPages, page + 2); // Конец диапазона (максимум totalPages)
+    const start = Math.max(1, page - 2); 
+    const end = Math.min(totalPages, page + 2); 
 
     for (let i = start; i <= end; i++) {
       pageNumbers.push(i);
@@ -112,7 +109,7 @@ const CategoryPage = () => {
               value={searchTerm}
               onChange={(e) => {
                 setSearchTerm(e.target.value);
-                setPage(1); // Сбрасываем на первую страницу при новом поиске
+                setPage(1); 
               }}
             />
         </div>
@@ -136,7 +133,6 @@ const CategoryPage = () => {
 
       {loading && <p>Loading...</p>}
 
-      {/* Список продуктов */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 justify-items-center montserrat text-sm font-medium">
         {products.map((product) => (
           <Link href={`/product/${product.id}`} key={product.id} className="w-4/6 flex flex-col gap-2 hover:-translate-y-2 hover:transform duration-300">
@@ -154,7 +150,6 @@ const CategoryPage = () => {
         ))}
       </div>
 
-      {/* Навигация по страницам */}
       <div className="flex justify-center items-center mt-10 mb-10 space-x-2 gap-20">
         {/* Кнопка "Previous" */}
         <button

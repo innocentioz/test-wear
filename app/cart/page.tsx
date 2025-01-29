@@ -2,13 +2,28 @@
 
 import { useCart } from "@/app/context/CartContext";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const CartPage = () => {
   const { cart, updateQuantity, removeFromCart, total } = useCart();
+  const router = useRouter();
 
   if (cart.length === 0) {
     return <div className="p-4">Корзина пуста</div>;
   }
+
+  const handleCheckout = async () => {
+    try {
+      const response = await fetch("/api/check-auth");
+      if (response.ok) {
+        router.push("/cart/order");
+      } else {
+        router.push("/login");
+      }
+    } catch (error) {
+      console.error("Ошибка проверки авторизации", error);
+    }
+  };
 
   return (
     <div className="p-4">
@@ -28,11 +43,11 @@ const CartPage = () => {
                 className="mr-4"
               />
             ) : (
-              <div className="w-12 h-12 bg-gray-200 mr-4" /> // Placeholder if no image
+              <div className="w-12 h-12 bg-gray-200 mr-4" /> 
             )}
             <div>
               <p className="text-lg">{item.name}</p>
-              {/* Conditionally render size only if it's not empty */}
+
               {item.size ? (
                 <p className="text-sm">Размер: {item.size}</p>
               ) : (
@@ -45,7 +60,7 @@ const CartPage = () => {
                 onClick={() =>
                   updateQuantity(item.id, item.size, item.quantity - 1)
                 }
-                disabled={item.quantity === 1} // Prevent decreasing below 1
+                disabled={item.quantity === 1} 
               >
                 -
               </button>
@@ -68,6 +83,13 @@ const CartPage = () => {
         ))}
       </ul>
       <div className="mt-4 text-xl">Итоговая цена: {total} ₽</div>
+
+      <button
+        onClick={handleCheckout}
+        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+      >
+        Оформить заказ
+      </button>
     </div>
   );
 };

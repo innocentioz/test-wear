@@ -17,7 +17,7 @@ const Button: React.FC<ButtonProps> = ({
   onClick,
   disabled = false,
 }) => {
-  const baseStyles = 'rounded px-4 py-2 font-semibold transition duration-200';
+  const baseStyles = 'rounded transition duration-200 montserrat';
   const variantStyles = {
     default: 'text-white bg-neutral-800 rounded-full p-4 hover:bg-white hover:border hover:border-neutral-800 hover:text-black',
     outline: 'text-black border rounded-full border-black hover:bg-neutral-800 hover:text-white',
@@ -27,7 +27,7 @@ const Button: React.FC<ButtonProps> = ({
     small: 'text-sm py-2 px-8', 
     medium: 'text-base py-3 px-', 
     large: 'text-lg py-2 px-14', 
-    long: 'text-lg py-2 px-20', 
+    long: 'text-base py-1 px-20', 
   }[size];
 
   const disabledStyles = 'opacity-50 cursor-not-allowed';

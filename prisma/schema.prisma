@@ -18,6 +18,7 @@ model Product {
   updatedAt   DateTime   @updatedAt
   carts       Cart[]
   wishlists   Wishlist[]
+  orderItems OrderItem[]
 }
 
 model Size {
@@ -37,6 +38,7 @@ model User {
   role      String     @default("user")
   carts     Cart[]
   wishlists Wishlist[]
+  orders Order[]
 }
 
 model Cart {
@@ -55,3 +57,30 @@ model Wishlist {
   product   Product @relation(fields: [productId], references: [id])
   user      User    @relation(fields: [userId], references: [id])
 }
+
+model Order {
+  id           Int       @id @default(autoincrement())
+  customerName String
+  phone        String
+  address      String
+  paymentMethod String
+  totalPrice   Int
+  status       String
+  items        OrderItem[]
+  userId       Int
+  user         User       @relation(fields: [userId], references: [id])
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model OrderItem {
+  id        Int     @id @default(autoincrement())
+  orderId   Int
+  productId Int
+  quantity  Int
+  size      String?
+  price     Int
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+

@@ -4,16 +4,15 @@ import WishlistClient from "./WishlistClient";
 import { redirect } from "next/navigation";
 
 const WishlistPage = async () => {
-  // Fetch session on the server
+
   const session = await getServerSession(authOptions);
 
   if (!session || !session.user) {
-    redirect("/login"); // Redirect to login if the user is not authenticated
+    redirect("/login"); 
   }
 
-  const userId = session.user.id;
+  const userId = Number(session.user.id);
 
-  // Fetch wishlist data
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/wishlist?userId=${userId}`, {
     cache: "no-store",
   });
