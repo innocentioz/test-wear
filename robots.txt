@@ -1,0 +1,11 @@
+User-agent: *
+Disallow: /app/admin/
+Disallow: /app/cart/
+Disallow: /app/components/
+Disallow: /app/context/
+Disallow: /app/login/
+Disallow: /app/profile/
+Disallow: /app/register/
+Disallow: /app/wishlist/
+Allow: /app/api/
+Allow: /app/product/
