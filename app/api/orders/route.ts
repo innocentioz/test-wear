@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 const prisma = new PrismaClient();
 
@@ -37,5 +39,28 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("Error creating order:", error);
     return NextResponse.json({ success: false, error: "Ошибка сервера" }, { status: 500 });
+  }
+}
+
+export async function GET() {
+  const session = await getServerSession(authOptions);
+
+  if (!session || !session.user) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  try {
+    const orders = await prisma.order.findMany({
+      where: { userId: Number(session.user.id) },
+      include: {
+        items: { include: { product: true } }, 
+      },
+      orderBy: { createdAt: "desc" },
+    });
+
+    return NextResponse.json(orders);
+  } catch (error) {
+    console.error("Ошибка при получении заказов:", error);
+    return NextResponse.json({ error: "Ошибка сервера" }, { status: 500 });
   }
 }
