@@ -8,7 +8,6 @@ export default function AdminPanel() {
   const [currentUserRole, setCurrentUserRole] = useState<string>("");
 
     useEffect(() => {
-      // Проверить роль текущего пользователя
       const storedUser = localStorage.getItem("user");
       if (storedUser) {
         const parsedUser = JSON.parse(storedUser);

@@ -93,7 +93,6 @@ export default function ProfilePage() {
         </button>
       </div>
 
-      {/* Вывод заказов */}
       <h2 className="text-xl font-bold mt-6">Ваши заказы</h2>
       {orders.length === 0 ? (
         <p className="text-gray-600">Заказов пока нет.</p>

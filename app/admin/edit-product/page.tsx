@@ -47,8 +47,6 @@ export default function AdminPage() {
             setLoading(false);
         }
     };
-
-    // Удаление продукта
     const handleDelete = async (id: number) => {
         setLoading(true);
         try {
