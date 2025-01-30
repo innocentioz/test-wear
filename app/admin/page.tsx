@@ -1,23 +1,23 @@
 "use client";
 
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function AdminPanel() {
+  const { data: session, status } = useSession();
+  const router = useRouter();
 
-  const [currentUserRole, setCurrentUserRole] = useState<string>("");
-
-    useEffect(() => {
-      const storedUser = localStorage.getItem("user");
-      if (storedUser) {
-        const parsedUser = JSON.parse(storedUser);
-        setCurrentUserRole(parsedUser.role);
-      }
-    }, []);
-
-    if (currentUserRole !== "moderator") {
-      return <p className="text-center mt-10">У вас нет доступа к этой странице.</p>;
+  useEffect(() => {
+    if (status !== 'loading' && (!session || !['admin', 'moderator'].includes(session.user.role))) {
+        router.push('/');
     }
+  }, [session, status, router]);
+
+  if (status === 'loading') return null;
+  if (!session || !['admin', 'moderator'].includes(session.user.role)) return <p>У вас нет доступа к этой странице</p>;
+
 
   return (
     <div className="max-w-md mx-auto mt-10">

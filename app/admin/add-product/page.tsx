@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
 export default function AdminPanel() {
   const [currentUserRole, setCurrentUserRole] = useState<string>("");
@@ -10,8 +12,16 @@ export default function AdminPanel() {
     price: "",
     category: "",
     image: null as File | null,
-    sizes: "", // Добавляем поле для размеров
+    sizes: "",
   });
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (status !== 'loading' && (!session || !['admin', 'moderator'].includes(session.user.role))) {
+        router.push('/');
+    }
+  }, [session, status, router]);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -20,6 +30,10 @@ export default function AdminPanel() {
       setCurrentUserRole(parsedUser.role);
     }
   }, []);
+
+  if (status === 'loading') return null;
+  if (!session || !['admin', 'moderator'].includes(session.user.role)) return <p>У вас нет доступа к этой странице</p>;
+
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -53,9 +67,8 @@ export default function AdminPanel() {
     formDataObj.append("category", formData.category);
     formDataObj.append("image", formData.image);
     
-    // Добавляем размеры, только если они указаны
     if (formData.sizes) {
-      formDataObj.append("sizes", formData.sizes); // Добавляем размеры
+      formDataObj.append("sizes", formData.sizes); 
     }
 
     try {

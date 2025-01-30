@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
 interface Product {
     id: number;
@@ -13,9 +14,15 @@ interface Product {
 export default function AdminPage() {
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(false);
+    const { data: session, status } = useSession();
     const router = useRouter();
 
-    // Загружаем все продукты при монтировании компонента
+    useEffect(() => {
+        if (status !== 'loading' && (!session || !['admin', 'moderator'].includes(session.user.role))) {
+            router.push('/');
+        }
+    }, [session, status, router]);
+
     useEffect(() => {
         async function fetchProducts() {
             const res = await fetch('/api/products');
@@ -25,7 +32,9 @@ export default function AdminPage() {
         fetchProducts();    
     }, []);
 
-    // Обновление продукта
+    if (status === 'loading') return null;
+    if (!session || !['admin', 'moderator'].includes(session.user.role)) return <p>У вас нет доступа к этой странице</p>;  
+
     const handleUpdate = async (id: number, updatedProduct: Partial<Product>) => {
         setLoading(true);
         try {

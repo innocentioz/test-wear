@@ -52,7 +52,7 @@ const ProductDetails = ({ product }: { product: Product }) => {
       },
       body: JSON.stringify({
         productId: product.id,
-        userId: session.user.id, // Передаем ID пользователя
+        userId: session.user.id, 
       }),
     });
   
@@ -86,7 +86,6 @@ const ProductDetails = ({ product }: { product: Product }) => {
               onChange={handleSizeChange}
               className="border p-2 w-full"
             >
-              <option value="">Без размера</option>
               {product.sizes.map((size) => (
                 <option key={size.id} value={size.name}>
                   {size.name}

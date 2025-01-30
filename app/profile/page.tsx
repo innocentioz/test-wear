@@ -3,6 +3,7 @@
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 interface OrderItem {
   id: number;
@@ -12,6 +13,7 @@ interface OrderItem {
   product: {
     name: string;
   };
+  imageUrl: string;
 }
 
 interface Order {
@@ -97,26 +99,25 @@ export default function ProfilePage() {
       {orders.length === 0 ? (
         <p className="text-gray-600">Заказов пока нет.</p>
       ) : (
-        <ul className="mt-4 space-y-4">
+        <div className="">
           {orders.map((order) => (
-            <li key={order.id} className="border p-4 rounded">
-              <p>
-                <strong>Статус:</strong> {order.status}
-              </p>
-              <p>
-                <strong>Адрес:</strong> {order.address}
-              </p>
-              <p className="font-semibold mt-2">Товары:</p>
-              <ul className="list-disc pl-5">
+            <div key={order.id} className="border p-4">
+              <p>Статус: {order.status}</p>
+              <p>Адрес:{order.address}</p>
+              <div>
                 {order.items.map((item) => (
-                  <li key={item.id}>
+                  <li key={item.id} className="flex flex-col">
+                    <span>Заказ №{item.id}</span>
                     {item.product.name} (x{item.quantity}) - {item.price}₽
+                    <Image src={item.imageUrl} alt={item.product.name} width={1920} height={1080}>
+
+                    </Image>
                   </li>
                 ))}
-              </ul>
-            </li>
+              </div>
+            </div>
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );

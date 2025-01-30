@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
 interface User {
   id: number;
@@ -12,20 +14,18 @@ interface User {
 
 export default function AdminPanel() {
   const [users, setUsers] = useState<User[]>([]);
-  const [currentUserRole, setCurrentUserRole] = useState<string>(""); // Роль текущего пользователя
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+  const { data: session, status } = useSession();
+  const router = useRouter();
 
   useEffect(() => {
-    // Проверить роль текущего пользователя
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      const parsedUser = JSON.parse(storedUser);
-      setCurrentUserRole(parsedUser.role);
+    if (status !== 'loading' && (!session || !['admin', 'moderator'].includes(session.user.role))) {
+        router.push('/');
     }
+  }, [session, status, router]);
 
-    // Загрузить список пользователей
-    fetchUsers();
-  }, []);
+  if (status === 'loading') return null;
+  if (!session || !['admin'].includes(session.user.role)) return <p>У вас нет доступа к этой странице</p>;
 
   const fetchUsers = async () => {
     try {
@@ -81,10 +81,6 @@ export default function AdminPanel() {
       setMessage({ type: "error", text: "Произошла ошибка." });
     }
   };
-
-  if (currentUserRole !== "admin") {
-    return <p className="text-center mt-10">У вас нет доступа к этой странице.</p>;
-  }
 
   return (
     <div className="max-w-4xl mx-auto mt-10">

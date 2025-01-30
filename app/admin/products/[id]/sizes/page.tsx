@@ -1,7 +1,9 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+
 
 interface ProductSize {
     id: number;
@@ -13,18 +15,26 @@ export default function ProductSizesPage() {
     const [newSize, setNewSize] = useState<string>('');
     const [loading, setLoading] = useState(false);
 
-    const { id } = useParams(); // Получаем id из URL
-    const productId = id && typeof id === 'string' ? parseInt(id, 10) : null; // Проверяем id на строку
+    const { id } = useParams();
+    const productId = id && typeof id === 'string' ? parseInt(id, 10) : null; 
+    const { data: session, status } = useSession();
+    const router = useRouter();
 
     useEffect(() => {
-        if (!productId) return;  // Если id некорректный, ничего не делаем
+        if (status !== 'loading' && (!session || !['admin', 'moderator'].includes(session.user.role))) {
+            router.push('/');
+        }
+    }, [session, status, router]);
+
+    useEffect(() => {
+        if (!productId) return; 
 
         async function fetchSizes() {
             setLoading(true);
             try {
                 const res = await fetch(`/api/products/${productId}/sizes`);
                 const data = await res.json();
-                setSizes(data); // Убираем обработку ошибок для простоты
+                setSizes(data); 
             } catch (error) {
                 console.error('Failed to fetch sizes:', error);
             } finally {
@@ -34,6 +44,9 @@ export default function ProductSizesPage() {
 
         fetchSizes();
     }, [productId]);
+
+    if (status === 'loading') return null;
+    if (!session || !['admin', 'moderator'].includes(session.user.role)) return <p>У вас нет доступа к этой странице</p>;
 
     const handleAddSize = async () => {
         if (!newSize) return;
@@ -57,16 +70,16 @@ export default function ProductSizesPage() {
 
     const handleDeleteSize = async (sizeId: number) => {
         setLoading(true);
-        console.log(`Deleting size with ID: ${sizeId}`); // Логирование sizeId
+        console.log(`Deleting size with ID: ${sizeId}`); 
         try {
             const res = await fetch(`/api/products/${productId}/sizes/${sizeId}`, {
                 method: 'DELETE',
             });
 
             if (!res.ok) {
-                const errorText = await res.text();  // Читаем текст ошибки
+                const errorText = await res.text();  
                 console.error('Failed to delete size: ', errorText);
-                throw new Error(errorText);  // Бросаем ошибку с подробным сообщением
+                throw new Error(errorText);  
             }
 
             // Обновляем список после удаления
@@ -78,9 +91,9 @@ export default function ProductSizesPage() {
         }
     };
 
-    if (loading) return <p>Loading...</p>;
+    if (loading) return <p>Загрузка</p>;
 
-    if (!sizes.length) return <p>No sizes found for this product</p>;
+    if (!sizes.length) return <p>Не найдено размеров для продукта</p>;
 
     return (
         <div>
@@ -89,7 +102,7 @@ export default function ProductSizesPage() {
                 {sizes.map((size) => (
                     <li key={size.id}>
                         {size.name} 
-                        <button onClick={() => handleDeleteSize(size.id)}>Delete</button>
+                        <button onClick={() => handleDeleteSize(size.id)}>Удалить</button>
                     </li>
                 ))}
             </ul>
@@ -99,7 +112,7 @@ export default function ProductSizesPage() {
                 onChange={(e) => setNewSize(e.target.value)}
                 placeholder="New Size"
             />
-            <button onClick={handleAddSize}>Add Size</button>
+            <button onClick={handleAddSize}>Добавить</button>
         </div>
     );
 }
