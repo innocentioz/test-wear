@@ -9,15 +9,15 @@ interface AccordionProps {
 
 function Accordion({ title, children }: AccordionProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const contentRef = useRef<HTMLDivElement | null>(null); 
+  const contentRef = useRef<HTMLDivElement | null>(null);
 
   return (
-    <div className="border rounded-lg overflow-hidden mb-4">
+    <div className={`border-b border-neutral-200 rounded-lg overflow-hidden mb-4 montserrat ${ isOpen ? "border border-neutral-400 rounded-lg" : "" }`}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex justify-between items-center p-4 bg-gray-100 hover:bg-gray-200 transition"
+        className={`w-full flex justify-between items-center p-4 transition ${ isOpen ? "bg-neutral-800 text-white" : "" } `}
       >
-        <span className="font-medium text-gray-800">{title}</span>
+        <span className="font-medium">{title}</span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className={`h-5 w-5 transform transition-transform duration-300 ${
@@ -52,9 +52,9 @@ function Accordion({ title, children }: AccordionProps) {
 
 export default function PaymentPage() {
   return (
-    <div className="max-w-lg mx-auto p-4">
+    <div className="max-w-lg mx-auto p-4 flex flex-col gap-4">
       <Accordion title="Способы возврата">
-        <p className="text-sm text-gray-600">
+        <p className="text-sm">
         *Если вы считаете, что вам пришел товар с браком или товар ненадлежащего качества, 
         свяжитесь с нами по почте SUPPORT@STEPANBATALOV.COM. Приложите к обращению фото и подробное 
         описание вашей проблемы, наша команда свяжется с вами и мы обязательно решим этот вопрос в частном 
@@ -62,7 +62,7 @@ export default function PaymentPage() {
         </p>
       </Accordion>
       <Accordion title="Способы оплаты">
-        <p className="text-sm text-gray-600">
+        <p className="text-sm">
         Мы также принимаем оплату банковскими картами: Visa, Mastercard, МИР. СБП и др. Или наличными средствами.
         </p>
       </Accordion>

@@ -14,7 +14,6 @@ export async function PUT(request: Request, { params }: { params: { id: string }
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    // Если нужно сменить пароль, проверить старый и обновить
     if (oldPassword && newPassword) {
       const isPasswordValid = await bcrypt.compare(oldPassword, user.password);
       if (!isPasswordValid) {
@@ -27,7 +26,6 @@ export async function PUT(request: Request, { params }: { params: { id: string }
       });
     }
 
-    // Обновление других данных пользователя
     const updatedUser = await prisma.user.update({
       where: { id: userId },
       data: { fullName, username },

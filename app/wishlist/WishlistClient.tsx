@@ -34,7 +34,7 @@ const WishlistClient = ({ wishlist: initialWishlist, userId }: { wishlist: any[]
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Избранное</h1>
+      <h1 className="text-2xl font-bold mb-4 text-center">Избранное</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {wishlist.map((item) => (
           <div key={item.id} className="flex flex-col items-center gap-5">
