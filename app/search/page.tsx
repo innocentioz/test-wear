@@ -51,19 +51,21 @@ export default function SearchPage() {
   };
 
   return (
-    <div className="container p-4">
-      <h1 className="text-2xl font-bold mb-4">Search for Products</h1>
+    <div className="container p-4 relative">
+      <div className='flex flex-col items-center'>
+        <h1 className="text-2xl font-bold mb-4">Поиск</h1>
 
-      <input
-        type="text"
-        placeholder="Type to search..."
-        className="border p-2 w-full mb-4"
-        value={searchTerm}
-        onChange={(e) => {
-          setSearchTerm(e.target.value);
-          setPage(1); 
-        }}
-      />
+        <input
+          type="text"
+          placeholder="Введите название товара, например: nike sb dunk"
+          className="p-2 px-5 border rounded-full opacity-40 text-black border-neutral-800 focus:outline-none focus:opacity-80 placeholder:text-neutral-700 w-1/3"
+          value={searchTerm}
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+            setPage(1); 
+          }}
+        />
+      </div>
 
       {loading && <p>Loading...</p>}
 
@@ -85,9 +87,9 @@ export default function SearchPage() {
       </div>
 
 
-      <div className="flex justify-center items-center mt-10 mb-10 space-x-2 gap-20">
+      <div className="flex justify-center items-center mt-10 mb-10 space-x-2 gap-20 absolute bottom-0 left-1/2 transform -translate-x-1/2">
         <button
-          className={`cursor-pointer ${page <= 1 ? 'opacity-30 cursor-not-allowed' : ''}`}
+          className={`cursor-pointer ${page <= 1 ? 'opacity-30 cursor-not-allowed hidden' : ''}`}
           onClick={() => handlePageChange(page - 1)}
           disabled={page <= 1}
         >
@@ -110,9 +112,8 @@ export default function SearchPage() {
           ))}
         </div>
 
-        {/* Кнопка "Next" */}
         <button
-          className={`cursor-pointer ${page >= totalPages ? 'opacity-30 cursor-not-allowed' : ''}`}
+          className={`cursor-pointer ${page >= totalPages ? 'opacity-30 cursor-not-allowed hidden' : ''}`}
           onClick={() => handlePageChange(page + 1)}
           disabled={page >= totalPages}
         >

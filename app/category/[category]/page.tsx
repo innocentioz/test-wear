@@ -64,7 +64,7 @@ const CategoryPage = () => {
   };
 
   return (
-    <div className="container mt-12 mb-16">
+    <div className="container mt-12 mb-16 relative">
       <h1 className="text-2xl font-bold mb-4">
         {(() => {
           switch (category) {
@@ -122,7 +122,7 @@ const CategoryPage = () => {
 
       {loading && <p>Loading...</p>}
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 justify-items-center montserrat text-sm font-medium">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 pb-44 justify-items-center montserrat text-sm font-medium">
         {products.map((product) => (
           <Link href={`/product/${product.id}`} key={product.id} className="w-4/6 flex flex-col gap-2 hover:-translate-y-2 hover:transform duration-300">
             <Image
@@ -139,17 +139,15 @@ const CategoryPage = () => {
         ))}
       </div>
 
-      <div className="flex justify-center items-center mt-10 mb-10 space-x-2 gap-20">
-        {/* Кнопка "Previous" */}
+      <div className="flex justify-center items-center mt-10 mb-10 space-x-2 gap-20 absolute bottom-0 left-1/2 transform -translate-x-1/2">
         <button
-          className={`cursor-pointer ${page <= 1 ? 'opacity-30 cursor-not-allowed' : ''}`}
+          className={`cursor-pointer ${page <= 1 ? 'opacity-30 cursor-not-allowed hidden' : ''}`}
           onClick={() => setPage(page - 1)}
           disabled={page <= 1}
         >
         <ChevronLeft width={40} height={40}/>
         </button>
 
-        {/* Номера страниц */}
         
         <div className='flex gap-10 text-2xl'>
           {getPageNumbers().map((pageNumber) => (
@@ -167,9 +165,8 @@ const CategoryPage = () => {
           ))}
         </div>
 
-        {/* Кнопка "Next" */}
         <button
-          className={`cursor-pointer ${page >= totalPages ? 'opacity-30 cursor-not-allowed' : ''}`}
+          className={`cursor-pointer ${page >= totalPages ? 'opacity-30 cursor-not-allowed hidden' : ''}`}
           onClick={() => setPage(page + 1)}
           disabled={page >= totalPages}
         >
