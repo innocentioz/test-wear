@@ -27,7 +27,7 @@ const Button: React.FC<ButtonProps> = ({
     small: 'text-sm py-2 px-8', 
     medium: 'text-base py-3 px-', 
     large: 'text-lg py-2 px-14', 
-    long: 'text-base py-1 px-20', 
+    long: 'text-base py-3 w-56', 
   }[size];
 
   const disabledStyles = 'opacity-50 cursor-not-allowed';

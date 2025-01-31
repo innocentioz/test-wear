@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
+import SortDropdown from '@/app/components/ui/SortDropdown';
 
 type Product = {
   id: number;
@@ -114,20 +115,8 @@ const CategoryPage = () => {
             />
         </div>
 
-
-        {/* Сортировка */}
         <div className="mb-4">
-          <select
-            value={sortOption}
-            onChange={(e) => setSortOption(e.target.value)}
-            className="bg-white text-black"
-          >
-            <option value="nameAsc">Имя (по возрастанию)</option>
-            <option value="nameDesc">Имя (по убыванию)</option>
-            <option value="priceAsc">Цена (по возрастанию)</option>
-            <option value="priceDesc">Цена (по убыванию)</option>
-          </select>
-
+          <SortDropdown sortOption={sortOption} setSortOption={setSortOption} />
         </div>
       </div>
 

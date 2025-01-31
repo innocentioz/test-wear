@@ -78,10 +78,6 @@ export default function Header() {
               </ul>
             )}
           </li>
-
-          <li>
-            <Link href="/brands">Бренды</Link>
-          </li>
         </ul>
       </nav>
 

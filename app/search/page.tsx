@@ -10,12 +10,12 @@ interface Product {
   imageUrl: string;
   name: string;
   category: string;
-  price: number; // Предположительно, цена хранится в центах
+  price: number; 
 }
 
 export default function SearchPage() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [products, setProducts] = useState<Product[]>([]); // Указан тип для массива продуктов
+  const [products, setProducts] = useState<Product[]>([]); 
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -61,7 +61,7 @@ export default function SearchPage() {
         value={searchTerm}
         onChange={(e) => {
           setSearchTerm(e.target.value);
-          setPage(1); // Reset to the first page on new search
+          setPage(1); 
         }}
       />
 
@@ -86,7 +86,6 @@ export default function SearchPage() {
 
 
       <div className="flex justify-center items-center mt-10 mb-10 space-x-2 gap-20">
-        {/* Кнопка "Previous" */}
         <button
           className={`cursor-pointer ${page <= 1 ? 'opacity-30 cursor-not-allowed' : ''}`}
           onClick={() => handlePageChange(page - 1)}
@@ -95,8 +94,6 @@ export default function SearchPage() {
         <ChevronLeft width={40} height={40}/>
         </button>
 
-        {/* Номера страниц */}
-        
         <div className='flex gap-10 text-2xl'>
           {getPageNumbers().map((pageNumber) => (
             <button

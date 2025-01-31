@@ -93,13 +93,6 @@ export default function MobileMenu({ isOpen, onClose } : MobileMenuProps) {
                     </ul>
                     )}
                 </li>
-
-                <li className={`transition-all duration-300 ease-in-out 
-                ${isDropdownMenuOpen ? 'mt-96 max-[414px]:mt-80 max-[380px]:mt-72' : 'mt-0'}`}>
-                    <Link href="/brands" onClick={onClose}>
-                        Бренды
-                    </Link>
-                </li>
             </ul>
         </nav>
     )
