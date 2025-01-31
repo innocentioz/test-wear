@@ -37,7 +37,7 @@ const WishlistClient = ({ wishlist: initialWishlist, userId }: { wishlist: any[]
       <h1 className="text-2xl font-bold mb-4 text-center">Избранное</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {wishlist.map((item) => (
-          <div key={item.id} className="flex flex-col items-center gap-5">
+          <div key={item.id} className="flex flex-col items-center justify-between gap-5 w-2/3">
             <Link href={`/product/${item.productId}`} className="flex flex-col gap-2 hover:-translate-y-2 hover:transform duration-300">
               <Image
                 src={item.product.imageUrl}

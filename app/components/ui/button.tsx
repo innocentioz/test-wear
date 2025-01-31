@@ -4,10 +4,10 @@ import React from 'react';
 
 interface ButtonProps {
   children: React.ReactNode;
-  variant?: 'default' | 'outline'; // Типы стилей
-  size?: 'small' | 'medium' | 'large' | 'long'  ; // Размеры кнопки
-  onClick?: () => void; // Обработчик клика
-  disabled?: boolean; // Отключение кнопки
+  variant?: 'default' | 'outline'; 
+  size?: 'small' | 'medium' | 'large' | 'long'  ; 
+  onClick?: () => void; 
+  disabled?: boolean; 
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -27,7 +27,7 @@ const Button: React.FC<ButtonProps> = ({
     small: 'text-sm py-2 px-8', 
     medium: 'text-base py-3 px-', 
     large: 'text-lg py-2 px-14', 
-    long: 'text-base py-3 w-56', 
+    long: 'text-base py-2 w-56', 
   }[size];
 
   const disabledStyles = 'opacity-50 cursor-not-allowed';

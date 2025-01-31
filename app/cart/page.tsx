@@ -2,14 +2,20 @@
 
 import { useCart } from "@/app/context/CartContext";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Button from "../components/ui/button";
 
 const CartPage = () => {
   const { cart, updateQuantity, removeFromCart, total } = useCart();
   const router = useRouter();
 
   if (cart.length === 0) {
-    return <div className="p-4">Корзина пуста</div>;
+    return <div className="flex flex-col items-center gap-5 montserrat mt-24">
+        Добавьте что-нибудь в корзину
+        <Link href="/search" className="bg-neutral-800 text-white px-12 py-2 rounded-full">Каталог</Link>
+      </div>
+    ;
   }
 
   const handleCheckout = async () => {
@@ -27,12 +33,12 @@ const CartPage = () => {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Корзина</h1>
-      <ul>
+      <h1 className="text-2xl font-bold mb-4 text-center">Корзина</h1>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
         {cart.map((item) => (
-          <li
+          <div
             key={`${item.id}-${item.size}`}
-            className="flex items-center justify-between mb-4"
+            className="flex flex-col items-center justify-between mb-4 montserrat w-2/3 p-4"
           >
             {item.imageUrl ? (
               <Image
@@ -43,53 +49,66 @@ const CartPage = () => {
                 className="mr-4"
               />
             ) : (
-              <div className="w-12 h-12 bg-gray-200 mr-4" /> 
+              <div className="w-12 h-12 bg-gray-200" /> 
             )}
-            <div>
-              <p className="text-lg">{item.name}</p>
+            <div className="flex flex-col gap-1">
+
+              <p className="text-base">{item.name}</p>
 
               {item.size ? (
-                <p className="text-sm">Размер: {item.size}</p>
+                <p className="text-base">Размер: {item.size}</p>
               ) : (
-                <p className="text-sm"></p>
+                <p className="text-base"></p>
               )}
-              <p className="text-sm">Цена: {item.price} ₽</p>
+              <p className="text-base">Цена: {item.price} ₽</p>
+
+              <div className="flex items-center">
+                <button
+                  onClick={() =>
+                    updateQuantity(item.id, item.size, item.quantity - 1)
+                  }
+                  disabled={item.quantity === 1} 
+                  className="text-2xl"
+                >
+                  -
+                </button>
+                <span className="mx-2 text-base">{item.quantity}</span>
+                <button
+                  onClick={() =>
+                    updateQuantity(item.id, item.size, item.quantity + 1)
+                  }
+                  className="text-2xl"
+                >
+                  +
+                </button>
+              </div>
             </div>
-            <div className="flex items-center">
-              <button
-                onClick={() =>
-                  updateQuantity(item.id, item.size, item.quantity - 1)
-                }
-                disabled={item.quantity === 1} 
-              >
-                -
-              </button>
-              <span className="mx-2">{item.quantity}</span>
-              <button
-                onClick={() =>
-                  updateQuantity(item.id, item.size, item.quantity + 1)
-                }
-              >
-                +
-              </button>
-              <button
+
+            <div className="pt-2">
+
+              <Button
                 onClick={() => removeFromCart(item.id, item.size)}
-                className="ml-4 text-red-500"
+                variant="outline"
+                size="long"
               >
                 Удалить
-              </button>
+              </Button>
             </div>
-          </li>
+          </div>
         ))}
-      </ul>
-      <div className="mt-4 text-xl">Итоговая цена: {total} ₽</div>
+      </div>
 
-      <button
-        onClick={handleCheckout}
-        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-      >
-        Оформить заказ
-      </button>
+      <div className="flex flex-col items-center pb-10 montserrat gap-5">
+        <div className="mt-4 text-xl">Итоговая цена: <span className="font-medium motivasans">{total}₽</span> </div>
+
+        <Button
+          onClick={handleCheckout}
+          variant="outline"
+          size="long"
+        >
+          Оформить заказ
+        </Button>
+      </div>
     </div>
   );
 };

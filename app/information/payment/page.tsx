@@ -52,9 +52,9 @@ function Accordion({ title, children }: AccordionProps) {
 
 export default function PaymentPage() {
   return (
-    <div className="max-w-lg mx-auto p-4 flex flex-col gap-4">
+    <div className="max-w-lg mx-auto p-4 mt-12 flex flex-col gap-4">
       <Accordion title="Способы возврата">
-        <p className="text-sm">
+        <p className="text-base">
         *Если вы считаете, что вам пришел товар с браком или товар ненадлежащего качества, 
         свяжитесь с нами по почте SUPPORT@STEPANBATALOV.COM. Приложите к обращению фото и подробное 
         описание вашей проблемы, наша команда свяжется с вами и мы обязательно решим этот вопрос в частном 
@@ -62,7 +62,7 @@ export default function PaymentPage() {
         </p>
       </Accordion>
       <Accordion title="Способы оплаты">
-        <p className="text-sm">
+        <p className="text-base">
         Мы также принимаем оплату банковскими картами: Visa, Mastercard, МИР. СБП и др. Или наличными средствами.
         </p>
       </Accordion>
