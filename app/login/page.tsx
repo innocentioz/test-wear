@@ -18,54 +18,76 @@ export default function LoginPage() {
     e.preventDefault();
 
     const res = await signIn("credentials", {
-      redirect: false, 
+      redirect: false,
       username: formData.username,
       password: formData.password,
     });
 
     if (res?.ok) {
-      router.push("/profile"); // Перенаправляем на страницу профиля
+      router.push("/profile");
     } else {
       setMessage("Неверные логин или пароль.");
     }
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10">
-      <h1 className="text-2xl font-bold mb-4">Login</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="username"
-          placeholder="Username"
-          value={formData.username}
-          onChange={handleChange}
-          className="border p-2 mb-2 w-full"
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-          className="border p-2 mb-2 w-full"
-          required
-        />
-        <button
-          type="submit"
-          className="bg-blue-500 text-white p-2 w-full mt-2 rounded"
-        >
-          Login
-        </button>
-      </form>
-      <div>
-        Если у вас отсутствует аккаунт, вы можете его зарегистрировать{" "}
-        <Link href="/register">
-          <span className="text-blue-500">здесь.</span>
-        </Link>
+    <div className="flex items-center justify-center min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+      <div className="w-full sm:w-[400px] md:w-[500px] bg-white p-10 rounded-2xl shadow-2xl transition-all duration-300 hover:shadow-3xl">
+        <div>
+          <h1 className="text-4xl font-bold text-center text-gray-900 mb-8 transition-all duration-300 hover:text-gray-700">
+            Вход в систему
+          </h1>
+        </div>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="space-y-4">
+            <input
+              type="text"
+              name="username"
+              placeholder="Введите логин"
+              value={formData.username}
+              onChange={handleChange}
+              className="appearance-none relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all duration-300"
+              required
+            />
+            <input
+              type="password"
+              name="password"
+              placeholder="Введите пароль"
+              value={formData.password}
+              onChange={handleChange}
+              className="appearance-none relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all duration-300"
+              required
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-lg font-medium rounded-lg text-white bg-gray-900 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg"
+          >
+            Войти
+          </button>
+        </form>
+
+        <div className="mt-6 text-center text-gray-600">
+          <p className="transition-all duration-300 hover:text-gray-900">
+            Нет аккаунта?{" "}
+            <Link 
+              href="/register" 
+              className="font-medium text-gray-900 hover:text-gray-700 transition-all duration-300 border-b border-gray-900 hover:border-gray-700"
+            >
+              Зарегистрируйтесь
+            </Link>
+          </p>
+        </div>
+
+        {message && (
+          <div className="mt-6 text-center">
+            <p className="text-red-500 text-lg animate-fade-in transition-all duration-300">
+              {message}
+            </p>
+          </div>
+        )}
       </div>
-      {message && <p className="mt-4 text-center text-red-500">{message}</p>}
     </div>
   );
 }
