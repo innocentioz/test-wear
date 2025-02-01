@@ -18,15 +18,6 @@ export default function AdminPanel() {
   const { data: session, status } = useSession();
   const router = useRouter();
 
-  useEffect(() => {
-    if (status !== 'loading' && (!session || !['admin', 'moderator'].includes(session.user.role))) {
-        router.push('/');
-    }
-  }, [session, status, router]);
-
-  if (status === 'loading') return null;
-  if (!session || !['admin'].includes(session.user.role)) return <p>У вас нет доступа к этой странице</p>;
-
   const fetchUsers = async () => {
     try {
       const response = await fetch("/api/users");
@@ -41,6 +32,18 @@ export default function AdminPanel() {
       setMessage({ type: "error", text: "Произошла ошибка при загрузке." });
     }
   };
+
+  useEffect(() => {
+    if (status !== 'loading' && (!session || !['admin', 'moderator'].includes(session.user.role))) {
+        router.push('/');
+    }
+    if (session?.user?.role === 'admin') {
+      fetchUsers();
+    }
+  }, [session, status, router]);
+
+  if (status === 'loading') return null;
+  if (!session || !['admin'].includes(session.user.role)) return <p>У вас нет доступа к этой странице</p>;
 
   const handleRoleChange = async (id: number, role: string) => {
     try {
@@ -83,56 +86,62 @@ export default function AdminPanel() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto mt-10">
-      <h1 className="text-2xl font-bold mb-4">Админ-панель</h1>
-      {message && (
-        <p
-          className={`mb-4 text-sm ${
-            message.type === "success" ? "text-green-600" : "text-red-600"
-          }`}
-        >
-          {message.text}
-        </p>
-      )}
-      <table className="w-full border-collapse border">
-        <thead>
-          <tr className="bg-gray-200">
-            <th className="border p-2">ID</th>
-            <th className="border p-2">Имя</th>
-            <th className="border p-2">Имя пользователя</th>
-            <th className="border p-2">Роль</th>
-            <th className="border p-2">Действия</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user) => (
-            <tr key={user.id}>
-              <td className="border p-2">{user.id}</td>
-              <td className="border p-2">{user.fullName}</td>
-              <td className="border p-2">@{user.username}</td>
-              <td className="border p-2">
-                <select
-                  value={user.role}
-                  onChange={(e) => handleRoleChange(user.id, e.target.value)}
-                  className="border p-1"
-                >
-                  <option value="user">User</option>
-                  <option value="moderator">Moderator</option>
-                  <option value="admin">Admin</option>
-                </select>
-              </td>
-              <td className="border p-2">
-                <button
-                  onClick={() => handleDeleteUser(user.id)}
-                  className="bg-red-500 text-white px-2 py-1 rounded"
-                >
-                  Удалить
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="min-h-screen py-12 px-4 sm:px-8 lg:px-12">
+      <div className="max-w-8xl mx-auto">
+        <div className="bg-white rounded-2xl shadow-xl p-8 sm:p-10">
+          <h1 className="text-4xl font-bold text-gray-900 mb-10">Управление пользователями</h1>
+          
+          {message && (
+            <div className={`mb-8 p-5 rounded-lg ${
+              message.type === "success" ? "bg-green-50 text-green-800" : "bg-red-50 text-red-800"
+            }`}>
+              {message.text}
+            </div>
+          )}
+
+          {users.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              {users.map((user) => (
+                <div key={user.id} className="bg-gray-50 rounded-lg p-8 shadow-sm hover:shadow-md transition-shadow">
+                  <div className="flex justify-between items-start mb-6">
+                    <div>
+                      <h3 className="text-xl font-semibold text-gray-900">{user.fullName}</h3>
+                      <p className="text-base text-gray-500">@{user.username}</p>
+                    </div>
+                    <span className="text-base text-gray-500">ID: {user.id}</span>
+                  </div>
+                  
+                  <div className="space-y-5">
+                    <div>
+                      <label className="block text-base font-medium text-gray-700 mb-2">Роль</label>
+                      <select
+                        value={user.role}
+                        onChange={(e) => handleRoleChange(user.id, e.target.value)}
+                        className="block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500 text-base py-3"
+                      >
+                        <option value="user">Пользователь</option>
+                        <option value="moderator">Модератор</option>
+                        <option value="admin">Администратор</option>
+                      </select>
+                    </div>
+                    
+                    <button
+                      onClick={() => handleDeleteUser(user.id)}
+                      className="w-full inline-flex justify-center items-center px-6 py-4 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors"
+                    >
+                      Удалить
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-16">
+              <p className="text-gray-500 text-xl">Пользователи не найдены</p>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

@@ -56,6 +56,7 @@ export default function AdminPage() {
             setLoading(false);
         }
     };
+
     const handleDelete = async (id: number) => {
         setLoading(true);
         try {
@@ -69,58 +70,72 @@ export default function AdminPage() {
     };
 
     return (
-        <div>
-            <h1>Admin Panel</h1>
-            {loading && <p>Loading...</p>}
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Price</th>
-                        <th>Sizes</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
+        <div className="min-h-screen bg-white px-2 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8 md:py-10 lg:py-12 mb-24">
+            <div className="max-w-7xl mx-auto">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-black mb-4 sm:mb-6 md:mb-8 text-center">
+                    Управление товарами
+                </h1>
+
+                {loading && (
+                    <div className="flex justify-center my-4 sm:my-6 md:my-8">
+                        <div className="animate-spin rounded-full h-6 w-6 sm:h-8 sm:w-8 border-b-2 border-black"></div>
+                    </div>
+                )}
+
+                <div className="grid grid-cols-1 gap-4 montserrat">
                     {products.map((product) => (
-                        <tr key={product.id}>
-                            <td>
-                                <input
-                                    type="text"
-                                    defaultValue={product.name}
-                                    onBlur={(e) =>
-                                        handleUpdate(product.id, { name: e.target.value })
-                                    }
-                                />
-                            </td>
-                            <td>
-                                <input
-                                    type="number"
-                                    defaultValue={product.price}
-                                    onBlur={(e) =>
-                                        handleUpdate(product.id, { price: parseInt(e.target.value) })
-                                    }
-                                />
-                            </td>
-                            <td>
-                                <ul>
-                                    {(product.sizes || []).map((size) => (
-                                        <li key={size}>
-                                            {size} 
-                                        </li>
-                                    ))}
-                                </ul>
-                                <button onClick={() => router.push(`/admin/products/${product.id}/sizes`)}>
-                                    Edit Sizes
-                                </button>
-                            </td>
-                            <td>
-                                <button onClick={() => handleDelete(product.id)}>Delete Product</button>
-                            </td>
-                        </tr>
+                        <div key={product.id} className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4 hover:bg-neutral-50 transition-colors duration-200">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                                <div className="space-y-2">
+                                    <label className="text-xs font-medium text-neutral-500">Название</label>
+                                    <input
+                                        type="text"
+                                        defaultValue={product.name}
+                                        onBlur={(e) => handleUpdate(product.id, { name: e.target.value })}
+                                        className="w-full px-3 py-2 text-sm rounded-lg border border-neutral-300 focus:border-black focus:ring-1 focus:ring-black transition duration-200 outline-none"
+                                    />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label className="text-xs font-medium text-neutral-500">Цена</label>
+                                    <input
+                                        type="number"
+                                        defaultValue={product.price}
+                                        onBlur={(e) => handleUpdate(product.id, { price: parseInt(e.target.value) })}
+                                        className="w-full px-3 py-2 text-sm rounded-lg border border-neutral-300 focus:border-black focus:ring-1 focus:ring-black transition duration-200 outline-none"
+                                    />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label className="text-xs font-medium text-neutral-500">Размеры</label>
+                                    <div className="flex flex-wrap gap-1 mb-2">
+                                        {(product.sizes || []).map((size) => (
+                                            <span key={size} className="px-2 py-1 bg-neutral-100 rounded-full text-xs">
+                                                {size}
+                                            </span>
+                                        ))}
+                                    </div>
+                                    <button 
+                                        onClick={() => router.push(`/admin/products/${product.id}/sizes`)}
+                                        className="w-full text-sm py-2 border border-black text-black hover:bg-black hover:text-white transition-all duration-300 rounded-full"
+                                    >
+                                        Изменить размеры
+                                    </button>
+                                </div>
+
+                                <div className="flex items-end">
+                                    <button 
+                                        onClick={() => handleDelete(product.id)}
+                                        className="w-full text-sm 3 py-2 bg-black text-white hover:bg-neutral-800 transition-all duration-300 rounded-full"
+                                    >
+                                        Удалить
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     ))}
-                </tbody>
-            </table>
+                </div>
+            </div>
         </div>
     );
 }

@@ -84,7 +84,7 @@ const CategoryPage = () => {
 
       <div className='flex flex-col gap-3 items-start w-full'>
         <div className='flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 w-full'> 
-            <div className='text-base sm:text-base'>
+            <div className='text-base sm:text-base montserrat'>
               <Link href={`/`} className='text-neutral-500 hover:text-neutral-900 transform duration-300 ease-in-out'>Главная / </Link>
               <Link href={`/category/${category}`} className='text-neutral-500 hover:text-neutral-900 transform duration-300 ease-in-out'>
                 {(() => {
@@ -116,7 +116,7 @@ const CategoryPage = () => {
             />
         </div>
 
-        <div className="mb-4 w-full sm:w-auto">
+        <div className="mb-4 w-full sm:w-auto relative z-10">
           <SortDropdown sortOption={sortOption} setSortOption={setSortOption} />
         </div>
       </div>
@@ -132,6 +132,7 @@ const CategoryPage = () => {
                 alt={product.name}
                 className="object-cover"
                 fill
+                style={{zIndex: 1}}
               />
             </div>
             <h2 className="line-clamp-2 text-base">{product.name}</h2>

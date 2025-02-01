@@ -64,7 +64,6 @@ export default function AdminOrderPage() {
     if (status === 'loading') return null;
     if (!session || !['admin', 'moderator'].includes(session.user.role)) return <p>У вас нет доступа к этой странице</p>;
   
-
     const handleUpdateStatus = async (id: number, newStatus: string) => {
         setLoading(true);
         try {
@@ -88,65 +87,79 @@ export default function AdminOrderPage() {
     };
 
     return (
-        <div>
-            <h1>Админ Панель Заказов</h1>
-            {loading && <p>Загрузка...</p>}
-            <table>
-                <thead>
-                    <tr>
-                        <th>Клиент</th>
-                        <th>Телефон</th>
-                        <th>Адрес</th>
-                        <th>Оплата</th>
-                        <th>Сумма</th>
-                        <th>Статус</th>
-                        <th>Товары</th>
-                    </tr>
-                </thead>
-                <tbody>
+        <div className="min-h-screen bg-white px-4 py-12 sm:px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto">
+                <h1 className="text-3xl sm:text-4xl font-bold text-black mb-8 text-center">
+                    Админ Панель Заказов
+                </h1>
+
+                {loading && (
+                    <div className="flex justify-center my-8">
+                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-black"></div>
+                    </div>
+                )}
+
+                <div className="grid grid-cols-1 gap-6">
                     {orders.map((order) => (
-                        <tr key={order.id}>
-                            <td>{order.customerName}</td>
-                            <td>{order.phone}</td>
-                            <td>{order.address}</td>
-                            <td>{order.paymentMethod}</td>
-                            <td>{order.totalPrice} ₽</td>
-                            <td>
-                                <select
-                                    value={order.status}
-                                    onChange={(e) => handleUpdateStatus(order.id, e.target.value)}
-                                >
-                                    {Object.keys(statusOptions).map((key) => (
-                                        <option key={key} value={key}>
-                                            {statusOptions[key]}
-                                        </option>
-                                    ))}
-                                </select>
-                            </td>
-                            <td>
-                                <ul>
-                                {order.items.map((item) => (
-                                    <li key={item.id} style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                                        {item.product.imageUrl && (
-                                            <Image
-                                                src={item.product.imageUrl}
-                                                alt={item.product.name}
-                                                width={250}
-                                                height={250}
-                                                style={{ borderRadius: "5px" }}
-                                            />
-                                        )}
-                                        <span>
-                                            {item.product.name} (x{item.quantity}) {item.size && `- ${item.size}`}
-                                        </span>
-                                    </li>
-                                ))}
-                                </ul>
-                            </td>
-                        </tr>
+                        <div key={order.id} className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6 montserrat">
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                <div>
+                                    <h3 className="text-sm font-medium text-neutral-500 mb-2">Информация о клиенте</h3>
+                                    <p className="text-sm mb-1"><span className="font-medium">Имя:</span> {order.customerName}</p>
+                                    <p className="text-sm mb-1"><span className="font-medium">Телефон:</span> {order.phone}</p>
+                                    <p className="text-sm"><span className="font-medium">Адрес:</span> {order.address}</p>
+                                </div>
+
+                                <div>
+                                    <h3 className="text-sm font-medium text-neutral-500 mb-2">Информация о заказе</h3>
+                                    <p className="text-sm mb-1"><span className="font-medium">Способ оплаты:</span> {(order.paymentMethod === "card" ? "Карта" : "Наличные")}</p>
+                                    <p className="text-sm mb-1"><span className="font-medium">Сумма:</span> {order.totalPrice} ₽</p>
+                                    <div className="mt-2">
+                                        <select
+                                            value={order.status}
+                                            onChange={(e) => handleUpdateStatus(order.id, e.target.value)}
+                                            className="w-full px-3 py-2 text-sm rounded-lg border border-neutral-300 focus:border-black focus:ring-1 focus:ring-black transition duration-200 outline-none"
+                                        >
+                                            {Object.keys(statusOptions).map((key) => (
+                                                <option key={key} value={key}>
+                                                    {statusOptions[key]}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div className="lg:col-span-1">
+                                    <h3 className="text-sm font-medium text-neutral-500 mb-2">Товары</h3>
+                                    <div className="space-y-4">
+                                        {order.items.map((item) => (
+                                            <div key={item.id} className="flex items-center gap-4">
+                                                {item.product.imageUrl && (
+                                                    <div className="relative w-16 h-16 flex-shrink-0">
+                                                        <Image
+                                                            src={item.product.imageUrl}
+                                                            alt={item.product.name}
+                                                            fill
+                                                            className="object-cover rounded-lg"
+                                                        />
+                                                    </div>
+                                                )}
+                                                <div className="flex flex-col">
+                                                    <span className="text-sm font-medium">{item.product.name}</span>
+                                                    <span className="text-xs text-neutral-500">
+                                                        Количество: {item.quantity}
+                                                        {item.size && ` • Размер: ${item.size}`}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     ))}
-                </tbody>
-            </table>
+                </div>
+            </div>
         </div>
     );
 }

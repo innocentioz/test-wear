@@ -55,23 +55,23 @@ export default function Header() {
             </span>
           
             {isClient && (
-              <ul className={`absolute left-0 mt-6 flex flex-col gap-4 bg-white overflow-hidden transition-all duration-300 ease-in-out origin-top 
+              <ul className={`absolute left-0 mt-6 flex flex-col gap-4 bg-white shadow-lg border border-neutral-100 p-4 rounded-3xl overflow-hidden transition-all duration-300 ease-in-out origin-top min-w-[160px] z-50
                 ${isDropdownOpen ? 'max-h-96 opacity-100 scale-y-100' : 'max-h-0 opacity-0 scale-y-0'}`}
                 style={{ transitionProperty: 'max-height, opacity, transform' }}>
                 <li>
-                  <Link href='/information/about'>
+                  <Link href='/information/about' className="block px-4 py-2 text-neutral-800 hover:bg-neutral-100 rounded-3xl transition-colors duration-200">
                     О нас
                   </Link>
                 </li>
 
                 <li>
-                  <Link href='/information/contacts'>
+                  <Link href='/information/contacts' className="block px-4 py-2 text-neutral-800 hover:bg-neutral-100 rounded-3xl transition-colors duration-200">
                     Контакты
                   </Link>
                 </li>
 
                 <li>
-                  <Link href='/information/payment'>
+                  <Link href='/information/payment' className="block px-4 py-2 text-neutral-800 hover:bg-neutral-100 rounded-3xl transition-colors duration-200">
                     Оплата
                   </Link>
                 </li>

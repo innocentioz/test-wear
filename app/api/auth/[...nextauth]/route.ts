@@ -41,7 +41,6 @@ export const authOptions: AuthOptions = {
     strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60, // Время жизни сессии (30 дней)
     updateAge: 24 * 60 * 60, // Обновление сессии
-    secret: process.env.NEXTAUTH_SECRET,
   },
   callbacks: {
     async jwt({ token, user }) {
@@ -58,9 +57,9 @@ export const authOptions: AuthOptions = {
       if (userToken) {
         session.user = {
           id: userToken.id,
-          username: userToken.username,
-          role: userToken.role, 
-          fullName: token.fullName,
+          username: userToken.username as string,
+          role: userToken.role as string,
+          fullName: userToken.fullName as string,
         };
       }
       return session;

@@ -6,31 +6,31 @@ export default function Footer() {
       <div className="container mx-auto text-center flex flex-col gap-10">
         <div className='flex gap-24 justify-center'>
           <div className='flex flex-col items-center'>
-            <h2 className='text-base'>
+            <h2 className='text-base font-medium'>
               Разделы
             </h2>
 
             <ul className='mt-4 flex flex-col gap-2'>
               <li>
-                <Link href="" className='hover:text-slate-200'>
+                <Link href="/category/shoes" className='hover:text-slate-200 transition-colors'>
                   Обувь
                 </Link>
               </li>
 
               <li>
-                <Link href="" className='hover:text-slate-200'>
+                <Link href="/category/clothes" className='hover:text-slate-200 transition-colors'>
                   Одежда
                 </Link>
               </li>
 
               <li>
-                <Link href="" className='hover:text-slate-200'>
+                <Link href="/category/accessories" className='hover:text-slate-200 transition-colors'>
                   Аксессуары
                 </Link>
               </li>
 
               <li>
-                <Link href="" className='hover:text-slate-200'>
+                <Link href="/category/collections" className='hover:text-slate-200 transition-colors'>
                   Коллекции
                 </Link>
               </li>
@@ -38,25 +38,25 @@ export default function Footer() {
           </div>
 
           <div className='flex flex-col items-center'>
-            <h2 className='text-base'>
+            <h2 className='text-base font-medium'>
               Информация  
             </h2>
 
             <ul className='mt-4 flex flex-col gap-2'>
               <li>
-                <Link href="/information/about" className='hover:text-slate-200'>
+                <Link href="/information/about" className='hover:text-slate-200 transition-colors'>
                   О нас
                 </Link>
               </li>
 
               <li>
-                <Link href="/information/contacts" className='hover:text-slate-200'>
+                <Link href="/information/contacts" className='hover:text-slate-200 transition-colors'>
                   Контакты
                 </Link>
               </li>
 
               <li>
-                <Link href="/information/payment" className='hover:text-slate-200'>
+                <Link href="/information/payment" className='hover:text-slate-200 transition-colors'>
                   Оплата
                 </Link>
               </li>
@@ -67,19 +67,19 @@ export default function Footer() {
         <div className='flex justify-center'>
           <ul className='flex gap-6'>
             <li>
-              <Link href='/information/policy' className='hover:text-slate-200'>
+              <Link href='/information/policy' className='hover:text-slate-200 transition-colors'>
                 Политика конфиденциальности
               </Link>
             </li>
 
             <li>
-              <Link href='/information/agreement' className='hover:text-slate-200'>
+              <Link href='/information/agreement' className='hover:text-slate-200 transition-colors'>
                 Пользовательское соглашение
               </Link>
             </li>
 
             <li>
-              <Link href='/information/offer' className='hover:text-slate-200'>
+              <Link href='/information/offer' className='hover:text-slate-200 transition-colors'>
                 Договор оферты
               </Link>
             </li>
@@ -89,4 +89,3 @@ export default function Footer() {
     </footer>
   );
 }
-  

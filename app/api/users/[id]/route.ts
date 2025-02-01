@@ -14,6 +14,15 @@ export async function PUT(request: Request, { params }: { params: { id: string }
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
+    if (username !== user.username) {
+      const existingUser = await prisma.user.findUnique({
+        where: { username },
+      });
+      if (existingUser) {
+        return NextResponse.json({ error: "Username already taken" }, { status: 400 });
+      }
+    }
+
     if (oldPassword && newPassword) {
       const isPasswordValid = await bcrypt.compare(oldPassword, user.password);
       if (!isPasswordValid) {
@@ -29,6 +38,12 @@ export async function PUT(request: Request, { params }: { params: { id: string }
     const updatedUser = await prisma.user.update({
       where: { id: userId },
       data: { fullName, username },
+      select: {
+        id: true,
+        username: true,
+        fullName: true,
+        role: true,
+      },
     });
 
     return NextResponse.json(updatedUser, { status: 200 });

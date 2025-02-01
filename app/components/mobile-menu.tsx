@@ -16,7 +16,7 @@ export default function MobileMenu({ isOpen, onClose } : MobileMenuProps) {
 
     return (
         <nav
-            className={`absolute top-0 left-0 w-full h-screen bg-white z-10 flex flex-col items-center justify-center gap-6 transition-transform duration-300 ${
+            className={`fixed top-0 left-0 w-full h-screen bg-white z-50 flex flex-col items-center justify-center gap-6 transition-transform duration-300 ${
             isOpen ? 'translate-x-0' : '-translate-x-full'
             }`}
         >
@@ -55,7 +55,7 @@ export default function MobileMenu({ isOpen, onClose } : MobileMenuProps) {
 
                     {isClient && (
                     <ul
-                        className={`absolute left-0 mt-7 flex flex-col gap-5 bg-white overflow-hidden transition-all duration-300 ease-in-out origin-top 
+                        className={`absolute left-0 mt-7 flex flex-col gap-5 bg-white overflow-hidden transition-all duration-300 ease-in-out origin-top z-50
                         max-[414px]:text-lg max-[414px]:gap-4 max-[414px]:mt-4 max-[380px]:text-base
                         ${isDropdownMenuOpen ? 'max-h-96 opacity-100 scale-y-100' : 'max-h-0 opacity-0 scale-y-0'}`}
                         style={{ transitionProperty: 'max-height, opacity, transform' }}
