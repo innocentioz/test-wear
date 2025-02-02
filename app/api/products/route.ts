@@ -10,15 +10,21 @@ export const POST = async (req: Request) => {
     const price = parseInt(formData.get("price") as string);
     const category = formData.get("category") as string;
     const image = formData.get("image") as File;
-    const sizesString = formData.get("sizes") as string; // Получаем строку размеров
+    const sizesString = formData.get("sizes") as string;
 
     if (!name || !price || !category || !image) {
       return NextResponse.json({ error: "Все поля обязательны." }, { status: 400 });
     }
 
-    let sizes: string[] = []; // Explicitly typing sizes as string array
+    let sizes: string[] = [];
     if (sizesString) {
-      sizes = sizesString.split(",").map((size: string) => size.trim()); // Преобразуем строку в массив, если размеры указаны
+      sizes = sizesString.split(",").map((size: string) => size.trim());
+    }
+
+    // Создаем директорию, если она не существует
+    const uploadDir = path.join(process.cwd(), "public", "uploads", "products");
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
     }
 
     const imagePath = `/uploads/products/${Date.now()}-${image.name}`;
@@ -29,7 +35,6 @@ export const POST = async (req: Request) => {
       fs.writeFile(filePath, buffer, (err) => (err ? reject(err) : resolve(null)));
     });
 
-    // Create product data with a specific type
     const productData = {
       name,
       price,
