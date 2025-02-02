@@ -5,8 +5,8 @@ import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 
 export default function AdminPanel() {
-  const [currentUserRole, setCurrentUserRole] = useState<string>("");
-  const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+  const { data: session, status } = useSession();
+  const router = useRouter();
   const [formData, setFormData] = useState({
     name: "",
     price: "",
@@ -14,25 +14,35 @@ export default function AdminPanel() {
     image: null as File | null,
     sizes: "",
   });
-  const { data: session, status } = useSession();
-  const router = useRouter();
+  const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
   useEffect(() => {
-    if (status !== 'loading' && (!session || !['admin', 'moderator'].includes(session.user.role))) {
-        router.push('/');
+    console.log("Current session:", session);
+    console.log("Current status:", status);
+    console.log("User role:", session?.user?.role);
+  }, [session, status]);
+
+  useEffect(() => {
+    if (status === 'loading') return;
+    
+    if (!session) {
+      router.push('/');
+      return;
+    }
+
+    if (!session.user?.role || !['admin', 'moderator'].includes(session.user.role)) {
+      router.push('/');
+      return;
     }
   }, [session, status, router]);
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      const parsedUser = JSON.parse(storedUser);
-      setCurrentUserRole(parsedUser.role);
-    }
-  }, []);
+  if (status === 'loading') {
+    return <div className="text-center mt-10">Загрузка...</div>;
+  }
 
-  if (status === 'loading') return null;
-  if (!session || !['admin', 'moderator'].includes(session.user.role)) return <p>У вас нет доступа к этой странице</p>;
+  if (!session || !['admin', 'moderator'].includes(session?.user?.role)) {
+    return <p className="text-center mt-10">У вас нет доступа к этой странице</p>;
+  }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -87,10 +97,6 @@ export default function AdminPanel() {
       setMessage({ type: "error", text: "Произошла ошибка." });
     }
   };
-
-  if (!["admin", "moderator"].includes(currentUserRole)) {
-    return <p className="text-center mt-10">У вас нет доступа к этой странице.</p>;
-  }
 
   return (
     <div className="min-h-screen bg-white px-4 py-12 sm:px-6 lg:px-8">
