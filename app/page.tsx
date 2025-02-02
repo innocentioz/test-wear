@@ -1,6 +1,7 @@
 "use client";
 
 import BrandSlider from "./components/ui/BrandSlider";
+import CookieConsent from "./components/ui/CookieConsent";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -85,6 +86,8 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <CookieConsent />
     </div>
   );
 }
