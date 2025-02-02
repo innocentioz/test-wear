@@ -25,6 +25,10 @@ COPY --from=build /app/.next ./.next
 COPY --from=build /app/public ./public
 COPY --from=build /app/package.json ./
 
+RUN mkdir -p /app/public/uploads/products
+
+VOLUME ["/app/public/uploads/products"]
+
 EXPOSE 3000
 
 CMD ["npm", "run", "start"]
