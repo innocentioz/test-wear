@@ -3,6 +3,13 @@
 import BrandSlider from "./components/ui/BrandSlider";
 import Image from "next/image";
 import Link from "next/link";
+import { Montserrat } from 'next/font/google';
+
+export const montserrat = Montserrat({ 
+  subsets: ['latin', 'cyrillic'],
+  display: 'swap',
+  variable: '--font-montserrat',
+});
 
 export default function HomePage() {
   return (
