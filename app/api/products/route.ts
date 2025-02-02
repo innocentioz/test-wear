@@ -20,8 +20,7 @@ export const POST = async (req: Request) => {
     if (sizesString) {
       sizes = sizesString.split(",").map((size: string) => size.trim());
     }
-
-    // Создаем директорию, если она не существует
+    
     const uploadDir = path.join(process.cwd(), "public", "uploads", "products");
     if (!fs.existsSync(uploadDir)) {
       fs.mkdirSync(uploadDir, { recursive: true });
