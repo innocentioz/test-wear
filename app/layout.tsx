@@ -7,17 +7,11 @@ import { CartProvider } from "@/app/context/CartContext";
 import { SessionProvider } from "next-auth/react";
 import Script from 'next/script';
 import Image from 'next/image';
-import { montserrat } from './fonts'
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${montserrat.variable}`}>
+    <html lang="en">
       <head>
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
         <Script
           id="yandex-metrika"
           strategy="afterInteractive"
@@ -41,7 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="yandex-verification" content="2eda3b196392eab2" />
         <meta name="google-site-verification" content="P_GscIXEXTPBMfYsHkK6ICiVDayViIrBfhqJETYA-w0" />
       </head>
-      <body className={`${montserrat.className}`}>
+      <body>
         <SessionProvider>
           <CartProvider>
             <Header />

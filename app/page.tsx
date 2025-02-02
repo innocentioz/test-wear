@@ -3,17 +3,10 @@
 import BrandSlider from "./components/ui/BrandSlider";
 import Image from "next/image";
 import Link from "next/link";
-import { Montserrat } from 'next/font/google';
-
-export const montserrat = Montserrat({ 
-  subsets: ['latin', 'cyrillic'],
-  display: 'swap',
-  variable: '--font-montserrat',
-});
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen montserrat mt-12 overflow-x-hidden">
       <section className="relative h-[80vh] w-full">
         <video
           autoPlay
@@ -43,7 +36,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="py-12">
+      <section className="py-12 w-full">
         <h2 className="text-2xl sm:text-3xl text-center mb-8">Наши бренды</h2>
         <BrandSlider />
       </section>
@@ -61,32 +54,32 @@ export default function HomePage() {
                 src={category.image}
                 alt={category.name}
                 fill
-                className="object-cover transition-transform duration-300 group-hover:scale-105"
+                className="object-cover transition-transform duration-300 group-hover:scale-105 blur-[1.5px]"
               />
               <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
-                <h3 className="text-white text-xl font-semibold">{category.name}</h3>
+                <h3 className="text-white text-xl">{category.name}</h3>
               </div>
             </Link>
           ))}
         </div>
       </section>
 
-      <section className="bg-neutral-100 py-12">
+      <section className="bg-neutral-50 py-12 w-full">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="text-center">
               <div className="text-4xl mb-4">🚚</div>
-              <h3 className="text-xl font-semibold mb-2">Быстрая доставка</h3>
+              <h3 className="text-xl mb-2">Быстрая доставка</h3>
               <p className="text-gray-600">Доставляем по всей России</p>
             </div>
             <div className="text-center">
               <div className="text-4xl mb-4">💎</div>
-              <h3 className="text-xl font-semibold mb-2">Гарантия качества</h3>
+              <h3 className="text-xl  mb-2">Гарантия качества</h3>
               <p className="text-gray-600">Только оригинальные товары</p>
             </div>
             <div className="text-center">
               <div className="text-4xl mb-4">🔄</div>
-              <h3 className="text-xl font-semibold mb-2">Простой возврат</h3>
+              <h3 className="text-xl mb-2">Простой возврат</h3>
               <p className="text-gray-600">30 дней на возврат товара</p>
             </div>
           </div>
@@ -101,24 +94,25 @@ const categories = [
     id: 1,
     name: "Обувь",
     slug: "shoes",
-    image: "/categories/shoes.jpg", 
+    image: "/images/shoes.jpg", 
   },
+
   {
     id: 2,
     name: "Одежда",
     slug: "clothing",
-    image: "/categories/clothing.jpg",
+    image: "/images/clothes.jpg",
   },
   {
     id: 3,
     name: "Аксессуары",
     slug: "accessories",
-    image: "/categories/accessories.jpg",
+    image: "/images/accessories.jpg",
   },
   {
     id: 4,
     name: "Коллекции",
     slug: "collections",
-    image: "/categories/collections.jpg",
+    image: "/images/collections.jpg",
   },
 ];
