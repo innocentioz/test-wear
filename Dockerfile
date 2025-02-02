@@ -5,8 +5,6 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 COPY package.json package-lock.json ./
-COPY public /app/public
-
 
 RUN npm install
 
@@ -24,6 +22,7 @@ WORKDIR /app
 
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/.next ./.next
+COPY --from=build /app/public ./public
 COPY --from=build /app/package.json ./
 
 EXPOSE 3000
