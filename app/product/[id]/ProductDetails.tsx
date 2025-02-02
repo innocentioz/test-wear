@@ -31,7 +31,9 @@ const categoryNames: Record<string, string> = {
 
 const ProductDetails = ({ product }: { product: Product }) => {
   const { addToCart } = useCart();
-  const [selectedSize, setSelectedSize] = useState<string>("");
+  const [selectedSize, setSelectedSize] = useState<string>(
+    product.sizes.length > 0 ? product.sizes[0].name : ""
+  );
   const { data: session } = useSession();
   const [showNotification, setShowNotification] = useState(false);
   const [isInWishlist, setIsInWishlist] = useState(false);
